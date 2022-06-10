@@ -1,3 +1,4 @@
+import { Clonable } from '../../utils/clonable';
 import cloneObject from '../../utils/cloneObject';
 
 describe('clone', () => {
@@ -113,5 +114,91 @@ describe('clone', () => {
       testFunction,
       other: 'string',
     });
+  });
+
+  it('should reference same Symbols on cloned object', () => {
+    const testSymbol = Symbol();
+
+    const data = {
+      symbol: testSymbol,
+      text: 'foobar',
+    };
+
+    const copy = cloneObject(data);
+
+    expect(copy.text).toEqual(data.text);
+    expect(copy === data).toBeFalsy();
+    expect(copy.symbol === data.symbol).toBeTruthy();
+  });
+
+  it('should retain type info when node is a class instance', () => {
+    class TestObject {
+      constructor(public name: string) {}
+    }
+
+    const data = new TestObject('foobar');
+    const copy = cloneObject(data);
+
+    expect(copy.name).toEqual(data.name);
+    expect(copy).toBeInstanceOf(TestObject);
+    expect(copy === data).toBeFalsy();
+  });
+
+  it('should work with classes using getter', () => {
+    class TestObject {
+      constructor(private _name: string) {}
+
+      get name() {
+        return this._name;
+      }
+    }
+
+    const data = new TestObject('foobar');
+    const copy = cloneObject(data);
+
+    expect(copy.name).toEqual(data.name);
+    expect(copy).toBeInstanceOf(TestObject);
+    expect(copy === data).toBeFalsy();
+  });
+
+  it('should work with Proxies', () => {
+    class TestObject {
+      constructor(public name: string) {}
+    }
+
+    const proxiedValue = 'From proxy';
+    const data = new TestObject('foobar');
+
+    const proxy = new Proxy(data, {
+      get() {
+        return proxiedValue;
+      },
+    });
+
+    const copy = cloneObject(proxy);
+
+    expect(copy.name).toEqual(proxiedValue);
+    expect(copy).toBeInstanceOf(TestObject);
+    expect(copy === data).toBeFalsy();
+  });
+
+  it('should delegate to object clone() method if any', () => {
+    class TestObject implements Clonable<TestObject> {
+      constructor(public name: string) {}
+
+      clone() {
+        return new TestObject(this.name);
+      }
+    }
+
+    const data = new TestObject('foobar');
+    const spy = jest.spyOn(data, 'clone');
+
+    const copy = cloneObject(data);
+
+    expect(spy).toHaveBeenCalled();
+    expect(copy.name).toEqual(data.name);
+    expect(copy).toBeInstanceOf(TestObject);
+    expect(copy === data).toBeFalsy();
   });
 });

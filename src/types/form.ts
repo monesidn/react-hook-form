@@ -54,7 +54,7 @@ export type Mode = keyof ValidationMode;
 export type CriteriaMode = 'firstError' | 'all';
 
 export type SubmitHandler<TFieldValues extends FieldValues> = (
-  data: UnpackNestedValue<TFieldValues>,
+  data: TFieldValues,
   event?: React.BaseSyntheticEvent,
 ) => any | Promise<any>;
 

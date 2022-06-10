@@ -67,7 +67,7 @@ Array [
   Object {
     "options": Array [
       Object {
-        "option": "no",
+        "option": "yes",
       },
       Object {
         "option": "yes",
@@ -77,7 +77,7 @@ Array [
   Object {
     "options": Array [
       Object {
-        "option": "no",
+        "option": "yes",
       },
       Object {
         "option": "yes",

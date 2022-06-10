@@ -37,7 +37,7 @@ import Welcome from './welcome';
 import { UseFormState } from './useFormState';
 import SetValueAsyncStrictMode from './setValueStrictMode';
 import './style.css';
-import CustomObjectAsValues from './customObjectAsValues';
+import ClassInstancesAsValues from './classInstancesAsValues';
 
 const App: React.FC = () => {
   return (
@@ -111,8 +111,8 @@ const App: React.FC = () => {
           element={<UseWatchUseFieldArrayNested />}
         />
         <Route
-          path="/customObjectAsValues"
-          element={<CustomObjectAsValues />}
+          path="/classInstancesAsValues"
+          element={<ClassInstancesAsValues />}
         />
         <Route path="/test" element={<Test />} />
         <Route path="/" element={<Welcome />} />

@@ -1,3 +1,4 @@
+import { isClonable } from './clonable';
 import isFunction from './isFunction';
 import isObject from './isObject';
 import isWeb from './isWeb';
@@ -16,13 +17,17 @@ export default function cloneObject<T>(data: T): T {
     !(isWeb && (data instanceof Blob || data instanceof FileList)) &&
     (isArray || isObject(data))
   ) {
-    copy = isArray ? [] : Object.create(Object.getPrototypeOf(data));
-    for (const key in data) {
-      if (isFunction(data[key])) {
-        copy = data;
-        break;
+    if (isClonable(data)) {
+      copy = data.clone();
+    } else {
+      copy = isArray ? [] : Object.create(Object.getPrototypeOf(data));
+      for (const key in data) {
+        if (isFunction(data[key])) {
+          copy = data;
+          break;
+        }
+        copy[key] = cloneObject(data[key]);
       }
-      copy[key] = cloneObject(data[key]);
     }
   } else {
     return data;
