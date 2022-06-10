@@ -22,7 +22,11 @@ const ManualRegisterForm: React.FC = () => {
     pattern: string;
     radio: string;
     checkbox: string;
-  }>();
+  }>({
+    defaultValues: {
+      firstName: 'John'
+    }
+  });
   const onSubmit = () => {};
   renderCounter++;
 
