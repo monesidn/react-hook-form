@@ -17,6 +17,8 @@ class FancyColor {
           height: '10px',
           backgroundColor: this.rgb,
         }}
+        data-cy="fancy-color-tile"
+        data-cy-color={this.cssName}
       ></div>
     );
   }
@@ -54,6 +56,8 @@ const FancyColorSelector = forwardRef<
           .filter((i) => i !== props.value)
           .map((color) => (
             <div
+              data-cy="fancy-color-picker-item"
+              data-cy-color={color.cssName}
               key={color.cssName}
               style={{
                 padding: '8px',

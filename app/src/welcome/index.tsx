@@ -29,6 +29,11 @@ const items: Item[] = [
     ],
   },
   {
+    title: 'ClassInstancesAsValues',
+    description: 'Using complex ES6 class instances as form values',
+    slugs: ['/classInstancesAsValues'],
+  },
+  {
     title: 'ConditionalField',
     description: 'Should reflect correct form state and data collection',
     slugs: ['/conditionalField'],
